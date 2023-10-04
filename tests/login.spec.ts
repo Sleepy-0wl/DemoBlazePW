@@ -3,6 +3,7 @@ import { Homepage } from '../page-objects/Homepage';
 import { NavMenu } from '../page-objects/NavMenu';
 import { Generators } from '../helpers/Generators';
 import { LogIn } from '../page-objects/Login';
+import { Dialogs } from '../helpers/Dialogs';
 
 test.describe("Log in testovi", () => {
     test.beforeEach(async ({page}) => {
@@ -13,12 +14,9 @@ test.describe("Log in testovi", () => {
     test("Log in bez usernamea i lozinke", async ({page}) => {
         let navMenu = new NavMenu(page);
         let login = new LogIn(page);
+        let dialogs = new Dialogs(page);
 
-        page.on('dialog', async dialog => {
-            expect(dialog.type()).toContain('alert');
-            expect(dialog.message()).toContain("Please fill out Username and Password.");            
-            await dialog.accept();
-          });
+        dialogs.handleDialog("Please fill out Username and Password.");
 
         await navMenu.login.click();
         await login.submitButton.click();
@@ -28,50 +26,42 @@ test.describe("Log in testovi", () => {
         let navMenu = new NavMenu(page);
         let login = new LogIn(page);
 
-        page.on('dialog', async dialog => {
-            expect(dialog.type()).toContain('alert');
-            expect(dialog.message()).toContain("Sign up successful.");            
-            await dialog.accept();
-        });
-
         await navMenu.login.click();
         await login.usernameInput.fill("SovaTest");
-        await login.passwordInput.fill("Tesna22");
+        await login.passwordInput.fill("Testna22");
         await login.submitButton.click();
+
+        await expect(navMenu.nameOfUser).toBeVisible();
     });
 
     test("Login sa nepostojećim korisnikom", async ({page}) => {
         let navMenu = new NavMenu(page);
         let login = new LogIn(page);
         let generatori = new Generators();
+        let dialogs = new Dialogs(page);
 
-        page.on('dialog', async dialog => {
-            expect(dialog.type()).toContain('alert');
-            expect(dialog.message()).toContain("User does not exist.");            
-            await dialog.accept();
-        });
+        dialogs.handleDialog("User does not exist.");
 
         await navMenu.login.click();
         await login.usernameInput.fill(generatori.usernameGenerator(12));
         await login.passwordInput.fill("aassf");
         await login.submitButton.click();
+        await page.waitForEvent("dialog");
     });
 
     test("Krivi password", async ({page}) => {
         let navMenu = new NavMenu(page);
         let login = new LogIn(page);
         let generatori = new Generators();
+        let dialogs = new Dialogs(page);
 
-        page.on('dialog', async dialog => {
-            expect(dialog.type()).toContain('alert');
-            expect(dialog.message()).toContain("Wrong password.");            
-            await dialog.accept();
-        });
+        dialogs.handleDialog("Wrong password.");
 
         await navMenu.login.click();
         await login.usernameInput.fill("a");
         await login.passwordInput.fill(generatori.passwordGenerator(9));
         await login.submitButton.click();
+        await page.waitForEvent("dialog");
     });
 
     test("Zatvaranje modala close buttonom", async ({page}) => {
