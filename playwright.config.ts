@@ -13,9 +13,14 @@ const config: PlaywrightTestConfig = {
         screenshot: 'only-on-failure',
     },
     projects: [
+        { name: 'setup', testMatch: /.*\.setup\.ts/ },
         {
             name: 'Chromium',
-            use: {browserName: 'chromium'},
+            use: {
+                browserName: 'chromium',
+                storageState: '.auth/user.json'    
+            },
+            dependencies: ['setup'],
         },
         //{
        //     name: "Firefox",
