@@ -3,7 +3,7 @@ import { Homepage } from '../page-objects/Homepage';
 import { NavMenu } from '../page-objects/NavMenu';
 import { LogIn } from '../page-objects/Login';
 
-const authFile = '.auth/user.json';
+const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ page }) => {
     let homepage = new Homepage(page);
@@ -15,6 +15,8 @@ setup('authenticate', async ({ page }) => {
     await login.usernameInput.fill("SovaTest");
     await login.passwordInput.fill("Testna22");
     await login.submitButton.click();
+
+    await page.waitForSelector("#nameofuser")
 
     await page.context().storageState({ path: authFile });
 });

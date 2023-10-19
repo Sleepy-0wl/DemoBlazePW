@@ -18,7 +18,7 @@ const config: PlaywrightTestConfig = {
             name: 'Chromium',
             use: {
                 browserName: 'chromium',
-                storageState: '.auth/user.json'    
+                storageState: 'playwright/.auth/user.json'    
             },
             dependencies: ['setup'],
         },

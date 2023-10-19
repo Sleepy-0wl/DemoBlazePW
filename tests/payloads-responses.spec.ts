@@ -54,7 +54,7 @@ test.describe("Playing with payloads and respones", () => {
         await expect(navMenu.nameOfUser).not.toBeVisible();
     });
 
-    test.only("Test the payload of Phones", async ({page}) => {
+    test("Test the payload of Phones", async ({page}) => {
         let filterMain = new FilterMain(page);
 
         page.on('request', (request) => {

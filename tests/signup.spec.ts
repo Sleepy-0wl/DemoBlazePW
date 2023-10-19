@@ -10,6 +10,7 @@ test.describe("Sign up testovi", () => {
        let homepage = new Homepage(page);
        await homepage.goToHomepage();
     });
+    test.use({ storageState: { cookies: [], origins: [] } });
 
     test("Registracija bez usernamea i lozinke", async ({page}) => {
         let navMenu = new NavMenu(page);

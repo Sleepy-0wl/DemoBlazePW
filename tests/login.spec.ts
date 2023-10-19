@@ -10,6 +10,7 @@ test.describe("Log in testovi", () => {
        let homepage = new Homepage(page);
        await homepage.goToHomepage();
     });
+    test.use({ storageState: { cookies: [], origins: [] } });
 
     test("Log in bez usernamea i lozinke", async ({page}) => {
         let navMenu = new NavMenu(page);
@@ -82,5 +83,5 @@ test.describe("Log in testovi", () => {
         await expect(login.logInLabel).not.toBeVisible();
     });
 
-    
+
 });
