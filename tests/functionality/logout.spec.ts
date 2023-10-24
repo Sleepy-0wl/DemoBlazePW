@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test';
-import { Homepage } from '../page-objects/Homepage';
-import { NavMenu } from '../page-objects/NavMenu';
-import { LogIn } from '../page-objects/Login';
+import { Homepage } from '../../page-objects/Homepage';
+import { NavMenu } from '../../page-objects/NavMenu';
+import { LogIn } from '../../page-objects/Login';
 
 test.describe("Log out tests", () => {
     

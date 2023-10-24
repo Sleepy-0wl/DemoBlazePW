@@ -1,10 +1,10 @@
 import {test, expect} from '@playwright/test';
-import { Homepage } from '../page-objects/Homepage';
-import { ItemsMain } from '../page-objects/ItemsMain';
-import { NavMenu } from '../page-objects/NavMenu';
-import { SingleItem } from '../page-objects/SingleItem';
-import { Dialogs } from '../helpers/Dialogs';
-import { Cart } from '../page-objects/Cart';
+import { Homepage } from '../../page-objects/Homepage';
+import { ItemsMain } from '../../page-objects/ItemsMain';
+import { NavMenu } from '../../page-objects/NavMenu';
+import { SingleItem } from '../../page-objects/SingleItem';
+import { Dialogs } from '../../helpers/Dialogs';
+import { Cart } from '../../page-objects/Cart';
 
 test.describe("Tests for adding items to carts", () => {
 

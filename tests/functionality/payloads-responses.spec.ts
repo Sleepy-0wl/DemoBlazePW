@@ -1,10 +1,10 @@
 import {test, expect} from '@playwright/test';
-import { Homepage } from '../page-objects/Homepage';
-import { NavMenu } from '../page-objects/NavMenu';
-import { LogIn } from '../page-objects/Login';
-import { Generators } from '../helpers/Generators';
-import { Dialogs } from '../helpers/Dialogs';
-import { FilterMain } from '../page-objects/FilterMain';
+import { Homepage } from '../../page-objects/Homepage';
+import { NavMenu } from '../../page-objects/NavMenu';
+import { LogIn } from '../../page-objects/Login';
+import { Generators } from '../../helpers/Generators';
+import { Dialogs } from '../../helpers/Dialogs';
+import { FilterMain } from '../../page-objects/FilterMain';
 
 test.describe("Playing with payloads and respones", () => {
 

@@ -1,9 +1,9 @@
 import {test, expect} from '@playwright/test';
-import { Homepage } from '../page-objects/Homepage';
-import { NavMenu } from '../page-objects/NavMenu';
-import { SignUp } from '../page-objects/SignUp';
-import { Generators } from '../helpers/Generators';
-import { Dialogs } from '../helpers/Dialogs';
+import { Homepage } from '../../page-objects/Homepage';
+import { NavMenu } from '../../page-objects/NavMenu';
+import { SignUp } from '../../page-objects/SignUp';
+import { Generators } from '../../helpers/Generators';
+import { Dialogs } from '../../helpers/Dialogs';
 
 test.describe("Sign up testovi", () => {
     test.beforeEach(async ({page}) => {

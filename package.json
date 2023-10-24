@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "noSetupAllTests": "npx playwright test --project=Chromium",
+    "onlyLoginAndSignUp": "npx playwright test --project=LogInSignIn",
+    "onlyFunctionality": "npx playwright test --project=Functionality"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test';
-import { Homepage } from '../page-objects/Homepage';
-import { ItemsMain } from '../page-objects/ItemsMain';
-import { FilterMain } from '../page-objects/FilterMain';
+import { Homepage } from '../../page-objects/Homepage';
+import { ItemsMain } from '../../page-objects/ItemsMain';
+import { FilterMain } from '../../page-objects/FilterMain';
 
 test.describe("Categories tests", () => {
     

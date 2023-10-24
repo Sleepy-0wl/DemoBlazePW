@@ -13,7 +13,10 @@ const config: PlaywrightTestConfig = {
         screenshot: 'only-on-failure',
     },
     projects: [
-        { name: 'setup', testMatch: /.*\.setup\.ts/ },
+        { name: 'setup', 
+        testDir: './',
+        testMatch: 'auth.setup.ts',
+        },
         {
             name: 'Chromium',
             use: {
@@ -22,14 +25,22 @@ const config: PlaywrightTestConfig = {
             },
             dependencies: ['setup'],
         },
-        //{
-       //     name: "Firefox",
-       //     use: {browserName: 'firefox'},
-       // },
-       // {
-       //     name: "Webkit",
-       //     use: {browserName: 'webkit'},
-        //},
+        {
+            name: 'LogInSignIn',
+            testDir: 'tests/signInAndLogIn',
+            use: {
+                browserName: 'chromium',    
+            },
+        },
+        {
+            name: 'Functionality',
+            testDir: 'tests/functionality',
+            use: {
+                browserName: 'chromium',
+                storageState: 'playwright/.auth/user.json'    
+            },
+            dependencies: ['setup'],
+        },
     ]
 }
 
