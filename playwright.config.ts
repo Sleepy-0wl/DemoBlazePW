@@ -19,6 +19,8 @@ const config: PlaywrightTestConfig = {
         },
         {
             name: 'Chromium',
+            testDir: './tests',
+            testMatch: '*.spec.ts',
             use: {
                 browserName: 'chromium',
                 storageState: 'playwright/.auth/user.json'    
@@ -28,6 +30,7 @@ const config: PlaywrightTestConfig = {
         {
             name: 'LogInSignIn',
             testDir: 'tests/signInAndLogIn',
+            testMatch: '*.spec.ts',
             use: {
                 browserName: 'chromium',    
             },
@@ -35,6 +38,7 @@ const config: PlaywrightTestConfig = {
         {
             name: 'Functionality',
             testDir: 'tests/functionality',
+            testMatch: '*.spec.ts',
             use: {
                 browserName: 'chromium',
                 storageState: 'playwright/.auth/user.json'    
