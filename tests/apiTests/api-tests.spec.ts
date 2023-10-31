@@ -123,7 +123,6 @@ test.describe("API tests", () => {
         let itemsMain = new ItemsMain(page);
 
         await filterMain.monitors.click();
-        await page.pause();
         expect(itemsMain.itemTitle.last()).toContainText("ISUS monitor");
       });
 
@@ -139,7 +138,6 @@ test.describe("API tests", () => {
         let itemsMain = new ItemsMain(page);
 
         await filterMain.phones.click();
-        await page.pause()
         expect(itemsMain.itemTitle.nth(2)).toContainText("NeroNexus");
       });
 });
