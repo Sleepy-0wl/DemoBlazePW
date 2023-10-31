@@ -1,6 +1,8 @@
 import {test, expect} from '@playwright/test';
 import { Homepage } from '../../page-objects/Homepage';
 import { Generators } from '../../helpers/Generators';
+import { FilterMain } from '../../page-objects/FilterMain';
+import { ItemsMain } from '../../page-objects/ItemsMain';
 
 test.describe("API tests", () => {
 
@@ -44,8 +46,9 @@ test.describe("API tests", () => {
 
         expect(response.status()).toBe(200);
         const responseBody = await response.json();
+        const prviItem = responseBody.Items[0];
 
-        expect(responseBody.Items[0]).toHaveProperty("cat", "monitor");
+        expect(prviItem).toHaveProperty("cat", "monitor");
         expect(responseBody.Items[0]).toHaveProperty("id", 10);
         expect(responseBody.Items[0]).toHaveProperty("title", "Apple monitor 24");
         expect(responseBody.Items[0]).toHaveProperty("price", 400);
@@ -67,7 +70,7 @@ test.describe("API tests", () => {
 
     });
 
-    test.only("Should simulate selecting an item via API", async ({request}) => {
+    test("Should simulate selecting an item via API", async ({request}) => {
         const response = await request.post("https://api.demoblaze.com/view", {
             data: {
                 "id": 3,
@@ -79,5 +82,66 @@ test.describe("API tests", () => {
         expect(responseBody.img).toContain(".jpg");
         expect(responseBody.price).toBeGreaterThan(12);
     });
+
+    test("Should mock an item without calling API", async ({ page }) => {
+        await page.route("**/bycat", async route => {
+          const json = {"Items": [
+            {
+                "cat": "laptops",
+                "desc": "Lazi i obmane da ovaj mobitel valja te novce",
+                "id": 1,
+                "img": "imgs/galaxy_s6.jpg",
+                "price": 570.0,
+                "title": "SMasung Orion O9"
+            },
+        ]};
+          await route.fulfill({ json });
+        });
+
+        let filterMain = new FilterMain(page);
+        let itemsMain = new ItemsMain(page);
+
+        await filterMain.laptops.click();
+        expect(itemsMain.itemTitle.first()).toContainText("SMasung Orion O9");
+      });
+
+      test('Should get json from API and then add item to it', async ({ page }) => {
+        await page.route("**/bycat", async route => {
+          const response = await route.fetch();
+          const json = await response.json();
+          console.log(json);
+          json.Items.push({
+            cat: "monitor",
+            desc: "Novogodišnja rezolucija da idemo na dijetu (samo prva dva dana)",
+            id: 19,
+            img: "imgs/asusm.jpg",
+            price: 420.0,
+            title: "ISUS monitor"
+        });
+          await route.fulfill({ response, json });
+        });
+        let filterMain = new FilterMain(page);
+        let itemsMain = new ItemsMain(page);
+
+        await filterMain.monitors.click();
+        await page.pause();
+        expect(itemsMain.itemTitle.last()).toContainText("ISUS monitor");
+      });
+
+      test('Should get json from API and then modify an item', async ({ page }) => {
+        await page.route("**/bycat", async route => {
+          const response = await route.fetch();
+          const json = await response.json();
+          json.Items[2].title = "NeroNexus";
+
+          await route.fulfill({response, json});
+        });
+        let filterMain = new FilterMain(page);
+        let itemsMain = new ItemsMain(page);
+
+        await filterMain.phones.click();
+        await page.pause()
+        expect(itemsMain.itemTitle.nth(2)).toContainText("NeroNexus");
+      });
 });
 
