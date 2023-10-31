@@ -109,7 +109,6 @@ test.describe("API tests", () => {
         await page.route("**/bycat", async route => {
           const response = await route.fetch();
           const json = await response.json();
-          console.log(json);
           json.Items.push({
             cat: "monitor",
             desc: "Novogodišnja rezolucija da idemo na dijetu (samo prva dva dana)",
