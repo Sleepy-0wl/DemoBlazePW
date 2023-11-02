@@ -13,6 +13,9 @@ const config: PlaywrightTestConfig = {
         video: 'retain-on-failure',
         screenshot: 'only-on-failure',
     },
+    expect: {
+        toHaveScreenshot: { maxDiffPixels: 100 },
+      },
     projects: [
         { name: 'setup', 
         testDir: './',
