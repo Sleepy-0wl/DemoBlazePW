@@ -72,5 +72,6 @@ test.describe("Snapshot tests", () => {
     test('Footer snapshot', async ({ page }) => {
         await expect(page.locator("#footc")).toHaveScreenshot();
     });
+    
 });
 
