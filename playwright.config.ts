@@ -50,6 +50,7 @@ const config: PlaywrightTestConfig = {
             dependencies: ['setup'],
         },
     ]
+    
 }
 
 export default config;

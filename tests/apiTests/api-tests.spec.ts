@@ -3,6 +3,9 @@ import { Homepage } from '../../page-objects/Homepage';
 import { Generators } from '../../helpers/Generators';
 import { FilterMain } from '../../page-objects/FilterMain';
 import { ItemsMain } from '../../page-objects/ItemsMain';
+import * as fs from "fs";
+import "../../data.json";
+
 
 test.describe("API tests", () => {
 
@@ -105,10 +108,16 @@ test.describe("API tests", () => {
         expect(itemsMain.itemTitle.first()).toContainText("SMasung Orion O9");
       });
 
-      test('Should get json from API and then add item to it', async ({ page }) => {
+      test.only('Should get json from API and then add item to it', async ({ page }) => {
         await page.route("**/bycat", async route => {
           const response = await route.fetch();
           const json = await response.json();
+          //const data = JSON.stringify(json);
+          //fs.writeFile("data.json", data, (error) => {
+            //if (error) {
+              //console.error(error);
+              //throw error;
+            //}});
           json.Items.push({
             cat: "monitor",
             desc: "Novogodišnja rezolucija da idemo na dijetu (samo prva dva dana)",
