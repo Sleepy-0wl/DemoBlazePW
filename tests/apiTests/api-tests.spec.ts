@@ -109,7 +109,7 @@ test.describe("API tests", () => {
         expect(itemsMain.itemTitle.first()).toContainText("SMasung Orion O9");
       });
 
-      test.only('Should get json from API and then add item to it', async ({ page }) => {
+      test('Should get json from API and then add item to it', async ({ page }) => {
         await page.route("**/bycat", async route => {
           const response = await route.fetch();
           const json = await response.json();
