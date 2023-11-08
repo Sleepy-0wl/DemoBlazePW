@@ -1,14 +1,8 @@
-import {test, expect} from '@playwright/test';
-import { Homepage } from '../../page-objects/Homepage';
-import { NavMenu } from '../../page-objects/NavMenu';
-import { LogIn } from '../../page-objects/Login';
+import {test, expect} from '../fixtures/Fixtures';
 
 test.describe("Log out tests", () => {
     
-    test("Log out", async ({page}) => {
-        let homepage = new Homepage(page);
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
+    test("Log out", async ({homepage, navMenu, login, page}) => {
     
         await homepage.goToHomepage();
     

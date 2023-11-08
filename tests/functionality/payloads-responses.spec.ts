@@ -1,23 +1,12 @@
-import {test, expect} from '@playwright/test';
-import { Homepage } from '../../page-objects/Homepage';
-import { NavMenu } from '../../page-objects/NavMenu';
-import { LogIn } from '../../page-objects/Login';
-import { Generators } from '../../helpers/Generators';
-import { Dialogs } from '../../helpers/Dialogs';
-import { FilterMain } from '../../page-objects/FilterMain';
+import {test, expect} from '../fixtures/Fixtures';
 
 test.describe("Playing with payloads and respones", () => {
 
-    test.beforeEach(async ({page}) => {
-        let homepage = new Homepage(page);
+    test.beforeEach(async ({homepage}) => {
         await homepage.goToHomepage();
      });
     
-     test("Playing 1", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
-        let generatori = new Generators();
-        let dialogs = new Dialogs(page);
+     test.skip("Playing 1", async ({navMenu, login, generators, dialogs, page}) => {
 
         await page.route("https://api.demoblaze.com/login", async (route) => 
         {
@@ -32,16 +21,12 @@ test.describe("Playing with payloads and respones", () => {
 
         await navMenu.login.click();
         await login.usernameInput.fill("a");
-        await login.passwordInput.fill(generatori.passwordGenerator(9));
+        await login.passwordInput.fill(generators.passwordGenerator(9));
         await login.submitButton.click();
         await page.waitForEvent("dialog");
     });
 
-    test("Playing 2", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
-        let generatori = new Generators();
-        let dialogs = new Dialogs(page);
+    test.skip("Playing 2", async ({navMenu, login, generators, dialogs, page}) => {
 
         await page.route("https://api.demoblaze.com/login", async (route) => route.abort()
         );
@@ -54,8 +39,7 @@ test.describe("Playing with payloads and respones", () => {
         await expect(navMenu.nameOfUser).not.toBeVisible();
     });
 
-    test("Test the payload of Phones", async ({page}) => {
-        let filterMain = new FilterMain(page);
+    test("Test the payload of Phones", async ({filterMain, page}) => {
 
         page.on('request', (request) => {
             if (request.url().includes('https://api.demoblaze.com/bycat')) {

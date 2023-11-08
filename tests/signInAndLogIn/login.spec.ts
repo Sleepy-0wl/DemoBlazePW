@@ -1,21 +1,13 @@
-import {test, expect} from '@playwright/test';
-import { Homepage } from '../../page-objects/Homepage';
-import { NavMenu } from '../../page-objects/NavMenu';
-import { Generators } from '../../helpers/Generators';
-import { LogIn } from '../../page-objects/Login';
-import { Dialogs } from '../../helpers/Dialogs';
+import {test, expect} from '../fixtures/Fixtures';
+
 
 test.describe("Log in testovi", () => {
-    test.beforeEach(async ({page}) => {
-       let homepage = new Homepage(page);
+    test.beforeEach(async ({homepage}) => {
        await homepage.goToHomepage();
     });
     test.use({ storageState: { cookies: [], origins: [] } });
 
-    test("Log in bez usernamea i lozinke", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
-        let dialogs = new Dialogs(page);
+    test("Log in bez usernamea i lozinke", async ({navMenu, login, dialogs}) => {
 
         dialogs.handleDialog("Please fill out Username and Password.");
 
@@ -23,9 +15,7 @@ test.describe("Log in testovi", () => {
         await login.submitButton.click();
     });
 
-    test("Log in", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
+    test("Log in", async ({navMenu, login}) => {
 
         await navMenu.login.click();
         await login.usernameInput.fill("SovaTest");
@@ -35,48 +25,36 @@ test.describe("Log in testovi", () => {
         await expect(navMenu.nameOfUser).toBeVisible();
     });
 
-    test("Login sa nepostojećim korisnikom", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
-        let generatori = new Generators();
-        let dialogs = new Dialogs(page);
+    test("Login sa nepostojećim korisnikom", async ({navMenu, login, generators, dialogs, page}) => {
 
         dialogs.handleDialog("User does not exist.");
 
         await navMenu.login.click();
-        await login.usernameInput.fill(generatori.usernameGenerator(12));
+        await login.usernameInput.fill(generators.usernameGenerator(12));
         await login.passwordInput.fill("aassf");
         await login.submitButton.click();
         await page.waitForEvent("dialog");
     });
 
-    test("Krivi password", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
-        let generatori = new Generators();
-        let dialogs = new Dialogs(page);
+    test("Krivi password", async ({navMenu, login, generators, dialogs, page}) => {
 
         dialogs.handleDialog("Wrong password.");
 
         await navMenu.login.click();
         await login.usernameInput.fill("a");
-        await login.passwordInput.fill(generatori.passwordGenerator(9));
+        await login.passwordInput.fill(generators.passwordGenerator(9));
         await login.submitButton.click();
         await page.waitForEvent("dialog");
     });
 
-    test("Zatvaranje modala close buttonom", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
+    test("Zatvaranje modala close buttonom", async ({navMenu, login}) => {
 
         await navMenu.login.click();
         await login.closeButton.click();
         await expect(login.logInLabel).not.toBeVisible();
     });
 
-    test("Zatvaranje modala x buttonom", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let login = new LogIn(page);
+    test("Zatvaranje modala x buttonom", async ({navMenu, login}) => {
 
         await navMenu.login.click();
         await login.xButton.click();

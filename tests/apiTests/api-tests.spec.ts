@@ -1,16 +1,8 @@
-import {test, expect} from '@playwright/test';
-import { Homepage } from '../../page-objects/Homepage';
-import { Generators } from '../../helpers/Generators';
-import { FilterMain } from '../../page-objects/FilterMain';
-import { ItemsMain } from '../../page-objects/ItemsMain';
-import * as fs from "fs";
-import "../../data.json";
-
+import {test, expect} from '../fixtures/Fixtures';
 
 test.describe("API tests", () => {
 
-    test.beforeEach(async ({page}) => {
-        let homepage = new Homepage(page);
+    test.beforeEach(async ({homepage}) => {
         await homepage.goToHomepage();
      });
      
@@ -29,12 +21,11 @@ test.describe("API tests", () => {
         expect(responseBody.errorMessage).toMatch("Wrong password.");
     });
 
-    test("Should check sign up via API", async ({request}) => {
-        let generator = new Generators()
+    test("Should check sign up via API", async ({generators, request}) => {
         const response = await request.post("https://api.demoblaze.com/signup", {
             data: {
-                "username": generator.usernameGenerator(6),
-                "password": generator.passwordGenerator(9),
+                "username": generators.usernameGenerator(6),
+                "password": generators.passwordGenerator(9),
             }
         });
         expect(response.ok).toBeTruthy();
@@ -87,7 +78,7 @@ test.describe("API tests", () => {
         expect(responseBody.price).toBeGreaterThan(12);
     });
 
-    test("Should mock an item without calling API", async ({ page }) => {
+    test("Should mock an item without calling API", async ({ filterMain, itemsMain, page }) => {
         await page.route("**/bycat", async route => {
           const json = {"Items": [
             {
@@ -102,14 +93,11 @@ test.describe("API tests", () => {
           await route.fulfill({ json });
         });
 
-        let filterMain = new FilterMain(page);
-        let itemsMain = new ItemsMain(page);
-
         await filterMain.laptops.click();
         expect(itemsMain.itemTitle.first()).toContainText("SMasung Orion O9");
       });
 
-      test('Should get json from API and then add item to it', async ({ page }) => {
+      test('Should get json from API and then add item to it', async ({ filterMain, itemsMain, page }) => {
         await page.route("**/bycat", async route => {
           const response = await route.fetch();
           const json = await response.json();
@@ -129,15 +117,13 @@ test.describe("API tests", () => {
         });
           await route.fulfill({ response, json });
         });
-        let filterMain = new FilterMain(page);
-        let itemsMain = new ItemsMain(page);
 
         await filterMain.monitors.click();
         await page.waitForTimeout(500);
         expect(itemsMain.itemTitle.last()).toContainText("ISUS monitor");
       });
 
-      test('Should get json from API and then modify an item', async ({ page }) => {
+      test('Should get json from API and then modify an item', async ({ filterMain, itemsMain, page }) => {
         await page.route("**/bycat", async route => {
           const response = await route.fetch();
           const json = await response.json();
@@ -145,8 +131,6 @@ test.describe("API tests", () => {
 
           await route.fulfill({response, json});
         });
-        let filterMain = new FilterMain(page);
-        let itemsMain = new ItemsMain(page);
 
         await filterMain.phones.click();
         await page.waitForTimeout(500);

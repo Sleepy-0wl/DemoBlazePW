@@ -1,24 +1,13 @@
-import {test, expect} from '@playwright/test';
-import { Homepage } from '../../page-objects/Homepage';
-import { ItemsMain } from '../../page-objects/ItemsMain';
-import { NavMenu } from '../../page-objects/NavMenu';
-import { SingleItem } from '../../page-objects/SingleItem';
-import { Dialogs } from '../../helpers/Dialogs';
-import { Cart } from '../../page-objects/Cart';
+import {test, expect} from '../fixtures/Fixtures';
+
 
 test.describe("Tests for adding items to carts", () => {
 
-    test.beforeEach(async ({page}) => {
-        let homepage = new Homepage(page);
+    test.beforeEach(async ({homepage}) => {
         await homepage.goToHomepage();
      });
 
-    test("Add to cart", async ({page}) => {
-        let navMenu = new NavMenu(page);
-        let itemsMain = new ItemsMain(page);
-        let singleItem = new SingleItem(page);
-        let dialogs = new Dialogs(page);
-        let cart = new Cart(page);
+    test("Add to cart", async ({navMenu, itemsMain, singleItem, dialogs, cart, page}) => {
 
         dialogs.handleDialog("");
 

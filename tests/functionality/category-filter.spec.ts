@@ -1,14 +1,9 @@
-import {test, expect} from '@playwright/test';
-import { Homepage } from '../../page-objects/Homepage';
-import { ItemsMain } from '../../page-objects/ItemsMain';
-import { FilterMain } from '../../page-objects/FilterMain';
+import {test, expect} from '../fixtures/Fixtures';
+
 
 test.describe("Categories tests", () => {
     
-    test("Change categories", async ({page}) => {
-        let homepage = new Homepage(page);
-        let filterMain = new FilterMain(page);
-        let itemsMain = new ItemsMain(page);
+    test("Change categories", async ({homepage, filterMain, itemsMain}) => {
     
         await homepage.goToHomepage();
         await filterMain.laptops.click();
