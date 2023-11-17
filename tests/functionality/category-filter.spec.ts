@@ -15,5 +15,11 @@ test.describe("Categories tests", () => {
         await filterMain.phones.click();
         await expect(itemsMain.itemCard).toHaveCount(7); 
     });
+
+    test("CSS test" , async ({homepage, filterMain}) => {
+        
+        await homepage.goToHomepage();
+        await expect(filterMain.categoriesGroup).toHaveCSS('display', 'flex');
+    });
 });
 
