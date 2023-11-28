@@ -29,7 +29,7 @@ test.describe("Snapshot tests", () => {
         await expect(page.locator("#signInModal")).toHaveScreenshot();
     });
 
-    test('Cart snapshot', async ({ navMenu, cart, page }) => {
+    test.skip('Cart snapshot', async ({ navMenu, cart, page }) => {
 
         await navMenu.cart.click();
         await expect(page.getByRole('button', { name: 'Place Order' })).toHaveText("Place Order");

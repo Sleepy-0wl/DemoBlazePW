@@ -7,7 +7,7 @@ test.describe("Tests for adding items to carts", () => {
         await homepage.goToHomepage();
      });
 
-    test.only("Adding to cart and deletion from it", async ({homepage, navMenu, itemsMain, singleItem, dialogs, cart, page}) => {
+     test("Adding to cart and deletion from it", async ({homepage, navMenu, itemsMain, singleItem, dialogs, cart, page}) => {
 
         dialogs.handleDialog("");
 
@@ -23,6 +23,7 @@ test.describe("Tests for adding items to carts", () => {
         var numberOfItems = await cart.cartItem.count();
         while(numberOfItems != 0){
             await page.getByText("Delete").first().click();
+            await page.waitForTimeout(1500);
             numberOfItems = await cart.cartItem.count();
         }
 

@@ -119,7 +119,7 @@ test.describe("API tests", () => {
         });
 
         await filterMain.monitors.click();
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(1000);
         expect(itemsMain.itemTitle.last()).toContainText("ISUS monitor");
       });
 
